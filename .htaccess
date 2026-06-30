@@ -1,0 +1,15 @@
+# Hide .env and config directory
+<FilesMatch "\.(env|ini|log)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Redirect ke HTTPS jika production
+    RewriteCond %{HTTPS} off
+    RewriteCond %{ENV:APP_ENV} production
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Default charset
+AddDefaultCharset UTF-8
